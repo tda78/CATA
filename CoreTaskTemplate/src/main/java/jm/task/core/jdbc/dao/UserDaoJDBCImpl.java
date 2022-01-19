@@ -93,6 +93,10 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
+    @Override
+    public void close() {
+    }
+
     public static void main(String[] args) {
         new UserDaoJDBCImpl();
     }

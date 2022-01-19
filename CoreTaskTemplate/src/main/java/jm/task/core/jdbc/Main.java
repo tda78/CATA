@@ -15,8 +15,10 @@ public class Main {
         service.saveUser("Masha","Petrova", (byte) 67);
         service.saveUser("R2","D2", (byte) 12);
         service.saveUser("Max","Mad", (byte) 40);
+        service.removeUserById(1);
         service.getAllUsers().stream().forEach(System.out::println);
         service.cleanUsersTable();
         service.dropUsersTable();
+        service.close();
     }
 }

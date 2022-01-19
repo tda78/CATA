@@ -1,6 +1,11 @@
 package jm.task.core.jdbc.util;
 
 import com.mysql.jdbc.Connection;
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +37,22 @@ public class Util {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static SessionFactory getSessionFactory(){
+        Properties props = new Properties();
+        try(InputStream in = Files.newInputStream(Paths.get("hibernate.properties"))){
+            props.load(in);
+        } catch (IOException e) {
+            System.out.println("file not found");
+            e.printStackTrace();
+        }
+        Configuration config = new Configuration();
+        config.addAnnotatedClass(User.class);
+        config.setProperties(props);
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
+        SessionFactory sessionFactory = config.buildSessionFactory(serviceRegistry);
+        return sessionFactory;
     }
 
 }
